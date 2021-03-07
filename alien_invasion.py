@@ -11,6 +11,7 @@ from ship import Ship
 #   for event in pygame.event.get() runs a for loop getting events that happened since loop was called
 #   Loop keeps calling the screen, loading it anew each time (transition is smooth so user can't really tell)
 #   Helper method (one _) works inside a class but isn't called through the instance
+#   Each keypress by user is registered as a KEYDOWN event
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -42,6 +43,11 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    #Move the ship to the right
+                    self.ship.rect.x += 1
     
     def _update_screen(self):
         """Updates images on the screen, and flip to the new screen"""
