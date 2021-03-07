@@ -42,15 +42,7 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship.update()
-            self.bullets.update()   #When update is called on a group, group automatically calls update() for each sprite in group
-
-            #Get rid of bullets that have disappeared
-            for bullet in self.bullets.copy():
-                #When using for loop for a list, we can't remove items form a list/group;
-                #     we use copy() to modify bullets inside the loop
-                if bullet.rect.bottom <= 0:
-                    self.bullets.remove(bullet)
-
+            self._update_bullets()
             self._update_screen()
 
     def _check_events(self):
@@ -90,6 +82,19 @@ class AlienInvasion:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
     
+    def _update_bullets(self):
+                """Update the position of bullets and get rid of old bullets"""
+                #Update all bullet positions
+                #When update is called on a group, group automatically calls update() for each sprite in group
+                self.bullets.update()      
+                
+                #Get rid of bullets that have disappeared
+                for bullet in self.bullets.copy():
+                    #When using for loop for a list, we can't remove items form a list/group;
+                    #     we use copy() to modify bullets inside the loop
+                    if bullet.rect.bottom <= 0:
+                        self.bullets.remove(bullet)
+
     def _update_screen(self):
         """Updates images on the screen, and flip to the new screen"""
         #Redrawing screen during each pass through the loop
