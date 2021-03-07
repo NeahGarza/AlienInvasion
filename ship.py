@@ -5,6 +5,7 @@ import pygame
 #   Coordinates represent image's top left (x,y) corner
 #   Screen starts at top left and increases bottom to right
 #   Only integer portion of self.x will be stored in self.rect.x
+#   With rect OBJECT, you can use (x,y) for top, bottom, left, and right edges
 
 class Ship:
     """A class to manage the ship"""
@@ -33,11 +34,11 @@ class Ship:
         """Update the ship's position based on the movement flags"""
 
         #Update the ship's x value, not the rect
-        if self.moving_right:
+        if self.moving_right and self.rect.right < self.screen_rect.right:
             self.x += self.settings.ship_speed
         #Not making this statement an elif to:
         #    1) nothing when both keys pressed and 2) would give right key priority
-        if self.moving_left:
+        if self.moving_left and self.rect.left > 0:
             self.x -= self.settings.ship_speed
 
         #Update rect object with self.x value
