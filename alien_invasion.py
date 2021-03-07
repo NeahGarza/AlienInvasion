@@ -3,6 +3,7 @@ import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 #   OBJECT assigned to self.screen is a surface 
 #   SURFACE = part of screen where element can be displayed; each alien/ship is its own surface
@@ -64,6 +65,8 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
     
     def _check_keyup_events(self, event):
         """Respond to key releases"""
@@ -71,13 +74,19 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+
+    def _fire_bullet(self):
+        """Create a new bullet and add it to the bullets group"""
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
     
     def _update_screen(self):
         """Updates images on the screen, and flip to the new screen"""
         #Redrawing screen during each pass through the loop
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
-
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
         #Make the most recently drawn screen visible
         pygame.display.flip()
 
