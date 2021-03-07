@@ -13,6 +13,7 @@ from bullet import Bullet
 #   Loop keeps calling the screen, loading it anew each time (transition is smooth so user can't really tell)
 #   Helper method (one _) works inside a class but isn't called through the instance
 #   Each keypress by user is registered as a KEYDOWN event
+#   Need to eventually get rid of created bullets because they keep going (just off screen and up/negative)
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -42,6 +43,14 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self.bullets.update()   #When update is called on a group, group automatically calls update() for each sprite in group
+
+            #Get rid of bullets that have disappeared
+            for bullet in self.bullets.copy():
+                #When using for loop for a list, we can't remove items form a list/group;
+                #     we use copy() to modify bullets inside the loop
+                if bullet.rect.bottom <= 0:
+                    self.bullets.remove(bullet)
+
             self._update_screen()
 
     def _check_events(self):
