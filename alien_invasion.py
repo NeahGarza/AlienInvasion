@@ -31,12 +31,16 @@ class AlienInvasion:
         self.bg_color = (230, 230, 230)
 
         self.ship = Ship(self)
+        #Group will store all live bullets in game
+        #Group is instance of sprite class and behaves like a list with added functionality
+        self.bullets = pygame.sprite.Group()
 
     def run_game(self):
         """Start the main loop for the game."""
         while True:
             self._check_events()
             self.ship.update()
+            self.bullets.update()   #When update is called on a group, group automatically calls update() for each sprite in group
             self._update_screen()
 
     def _check_events(self):
