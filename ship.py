@@ -20,13 +20,18 @@ class Ship:
         #Start each new ship at the bottom center of the screen
         self.rect.midbottom = self.screen_rect.midbottom
 
-        #Movement flag
+        #Movement flags
         self.moving_right = False
+        self.moving_left = False
 
     def update(self):
-        """Update the ship's position based on the movement flag"""
+        """Update the ship's position based on the movement flags"""
         if self.moving_right:
             self.rect.x += 1
+        #Not making this statement an elif to:
+        #  1) nothing when both keys pressed and 2) would give right key priority
+        if self.moving_left:
+            self.rect.x -= 1
 
     def blitme(self):
         """Draw the ship at its current location"""
