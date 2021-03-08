@@ -4,6 +4,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+import alien from Alien
 
 #   OBJECT assigned to self.screen is a surface 
 #   SURFACE = part of screen where element can be displayed; each alien/ship is its own surface
@@ -14,6 +15,7 @@ from bullet import Bullet
 #   Helper method (one _) works inside a class but isn't called through the instance
 #   Each keypress by user is registered as a KEYDOWN event
 #   Need to eventually get rid of created bullets because they keep going (just off screen and up/negative)
+#  _create_fleet method creates instance of Alien, then adds it to the group that will hold the fleet
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -36,6 +38,9 @@ class AlienInvasion:
         #Group will store all live bullets in game
         #Group is instance of sprite class and behaves like a list with added functionality
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -102,8 +107,18 @@ class AlienInvasion:
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+
+        #When draw used on group, Pygame draws each element at position defined by rect attribute
+        self.aliens.draw(self.screen)
+
         #Make the most recently drawn screen visible
         pygame.display.flip()
+
+    def _create_fleet(self):
+        """Create the fleet of aliens"""
+        #Make an alien
+        alien = Alien(self)
+        self.aliens.add(alien)
 
 if __name__ == '__main__':
     #Make a game instance, and run the game
