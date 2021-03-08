@@ -16,6 +16,7 @@ import alien from Alien
 #   Each keypress by user is registered as a KEYDOWN event
 #   Need to eventually get rid of created bullets because they keep going (just off screen and up/negative)
 #  _create_fleet method creates instance of Alien, then adds it to the group that will hold the fleet
+#  floor division (//) divides numbers and drops remainder, so just returns an int
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -116,9 +117,24 @@ class AlienInvasion:
 
     def _create_fleet(self):
         """Create the fleet of aliens"""
-        #Make an alien
+        #Create an alien and find the number of aliens in a row
+        #Spacing between each alien is equal to one alien width
+        #THIS ALIEN INSTANCE WILL ONLY BE USED TO CALCULATE SCREEN/ALIEN DIMENSIONS
         alien = Alien(self)
-        self.aliens.add(alien)
+        alien_width = alien.rect.width
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        number_aliens_x = available_space_x // (2 * alien_width)
+
+        #Create first row of aliens
+        for alien_number in range(number_aliens_x):
+            #Create an alien and place it in the row
+            alien = Alien(self)
+            #  each alien is is pushed to the right one alien width from the left margin
+            #  multiplying each alien width by 2 to account for each space each alien occupies (including empty space to right)
+            #  we then multiply this amount by alien's position in row; using alien's x attrib to set position of its rect
+            alien.x = alien_width + 2 * alien_width * alien_number
+            alien.rect.x = alien.x 
+            self.aliens.add(alien)
 
 if __name__ == '__main__':
     #Make a game instance, and run the game
