@@ -127,14 +127,18 @@ class AlienInvasion:
 
         #Create first row of aliens
         for alien_number in range(number_aliens_x):
-            #Create an alien and place it in the row
-            alien = Alien(self)
-            #  each alien is is pushed to the right one alien width from the left margin
-            #  multiplying each alien width by 2 to account for each space each alien occupies (including empty space to right)
-            #  we then multiply this amount by alien's position in row; using alien's x attrib to set position of its rect
-            alien.x = alien_width + 2 * alien_width * alien_number
-            alien.rect.x = alien.x 
-            self.aliens.add(alien)
+            self._create_alien(alien_number)
+
+    def _create_alien(self, alien_number):
+        #Create an alien and place it in the row
+        alien = Alien(self)
+        #  each alien is is pushed to the right one alien width from the left margin
+        #  multiplying each alien width by 2 to account for each space each alien occupies (including empty space to right)
+        #  we then multiply this amount by alien's position in row; using alien's x attrib to set position of its rect
+        alien_width = alien.rect.width
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x 
+        self.aliens.add(alien)
 
 if __name__ == '__main__':
     #Make a game instance, and run the game
