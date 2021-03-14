@@ -87,6 +87,8 @@ class AlienInvasion:
         """Start a new game when the Player clicks Play"""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
+            #Hide mouse cursor when mouse is over game window
+            pygame.mouse.set_visible(False)
             #Next line checks whether mouse click overlaps the Play button region; 
             #   if yes, set game_active to True and start game
             if self.play_button.rect.collidepoint(mouse_pos):
@@ -251,6 +253,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _check_fleet_edges(self):
         """Respond appropriately if any aliens have reached an edge"""
