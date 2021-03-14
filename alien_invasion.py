@@ -101,6 +101,12 @@ class AlienInvasion:
                     #     we use copy() to modify bullets inside the loop
                     if bullet.rect.bottom <= 0:
                         self.bullets.remove(bullet)
+                
+                #Check for any bullets that have hit aliens
+                #If so, get rid of the bullet and the alien
+                #This line compares positions of all bullets in self.bullets and all aliens in self.aliens and identifies overlap
+                #Two true arguments tell pygame to delete the bullets and aliens that have collided
+                collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
     def _update_screen(self):
         """Updates images on the screen, and flip to the new screen"""
@@ -168,7 +174,7 @@ class AlienInvasion:
     def _change_fleet_direction(self):
         """Drop the entire fleet and change the fleet's direction"""
         for alien in self.aliens.sprites():
-            alien.rect.y += self.settings.fleet_drop_speed 
+            alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
 if __name__ == '__main__':
