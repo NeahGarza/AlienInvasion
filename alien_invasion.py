@@ -20,6 +20,8 @@ from alien import Alien
 #   Need to eventually get rid of created bullets because they keep going (just off screen and up/negative)
 #   _create_fleet method creates instance of Alien, then adds it to the group that will hold the fleet
 #   floor division (//) divides numbers and drops remainder, so just returns an int
+#   Always need to call check_events() to see if user Quits or closes window
+#   Game should freeze when user loses all ships
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -53,9 +55,11 @@ class AlienInvasion:
         """Start the main loop for the game."""
         while True:
             self._check_events()
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
+
+            if self.stats.game_active:
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()
             self._update_screen()
 
     def _check_events(self):
