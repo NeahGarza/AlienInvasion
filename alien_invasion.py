@@ -90,28 +90,33 @@ class AlienInvasion:
             self.bullets.add(new_bullet)
     
     def _update_bullets(self):
-                """Update the position of bullets and get rid of old bullets"""
-                #Update all bullet positions
-                #When update is called on a group, group automatically calls update() for each sprite in group
-                self.bullets.update()      
+        """Update the position of bullets and get rid of old bullets"""
+        #Update all bullet positions
+        #When update is called on a group, group automatically calls update() for each sprite in group
+        self.bullets.update()      
                 
-                #Get rid of bullets that have disappeared
-                for bullet in self.bullets.copy():
-                    #When using for loop for a list, we can't remove items form a list/group;
-                    #     we use copy() to modify bullets inside the loop
-                    if bullet.rect.bottom <= 0:
-                        self.bullets.remove(bullet)
-                
-                #Check for any bullets that have hit aliens
-                #If so, get rid of the bullet and the alien
-                #This line compares positions of all bullets in self.bullets and all aliens in self.aliens and identifies overlap
-                #Two true arguments tell pygame to delete the bullets and aliens that have collided
-                collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        #Get rid of bullets that have disappeared
+        for bullet in self.bullets.copy():
+        #When using for loop for a list, we can't remove items form a list/group;
+        #     we use copy() to modify bullets inside the loop
+        if bullet.rect.bottom <= 0:
+            self.bullets.remove(bullet)
 
-                if not self.aliens:
-                    #Destroy existing bullets and create a new fleet
-                    self.bullets.empty()
-                    self._create_fleet()
+        self._check_bullet_alien_collisions()
+
+    def _check_bullet_alien_collisions(self):  
+        """Respond to bullet-alien collisions"""
+        #Remove any bullets or aliens that have collided
+        #Check for any bullets that have hit aliens
+        #If so, get rid of the bullet and the alien
+        #This line compares positions of all bullets in self.bullets and all aliens in self.aliens and identifies overlap
+        #Two true arguments tell pygame to delete the bullets and aliens that have collided
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        if not self.aliens:
+            #Destroy existing bullets and create a new fleet
+            self.bullets.empty()
+            self._create_fleet()
 
     def _update_screen(self):
         """Updates images on the screen, and flip to the new screen"""
