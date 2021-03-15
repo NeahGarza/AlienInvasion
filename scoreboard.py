@@ -19,6 +19,9 @@ class Scoreboard:
 
     def prep_score(self):
         """Turn the score into a rendered image"""
+        rounded_score = round(self.stats.score, -1)
+        #Next line is formatting large scores to have comma separators
+        score_str = "{:,}".format(rounded_score)
         score_str = str(self.stats.score)
         self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color)
 
