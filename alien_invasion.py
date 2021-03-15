@@ -11,6 +11,7 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+
 #   OBJECT assigned to self.screen is a surface 
 #   SURFACE = part of screen where element can be displayed; each alien/ship is its own surface
 #   COLORS specified as RGB colors: red, green, blue
@@ -24,6 +25,8 @@ from alien import Alien
 #   floor division (//) divides numbers and drops remainder, so just returns an int
 #   Always need to call check_events() to see if user Quits or closes window
 #   Game should freeze when user loses all ships
+#   WAYS TO IMPROVE: Add to user assistance (bigger bullets, possible drones, extra lives),
+#                    make aliens that can take more damage, fleets of ships
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -155,6 +158,12 @@ class AlienInvasion:
         #This line compares positions of all bullets in self.bullets and all aliens in self.aliens and identifies overlap
         #Two true arguments tell pygame to delete the bullets and aliens that have collided
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        #When bullet hits alien, Pygame returns a collisions dict
+        #if dict exists, alien's value is added to score; call prep_score to create new image
+        if collisions:
+            self.stats.score += self.settings.alien_points
+            self.sb.prep_score()
 
         if not self.aliens:
             #Destroy existing bullets and create a new fleet

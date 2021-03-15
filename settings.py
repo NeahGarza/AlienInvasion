@@ -4,6 +4,9 @@ class Settings:
     def __init__(self):
         """Initialize the game's static settings"""
 
+        #Scoring
+        self.alien_points = 50
+
         #Screen settings
         self.screen_width = 1200
         self.screen_height = 800
